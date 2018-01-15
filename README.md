@@ -1,22 +1,16 @@
 # Agile
 
-HOw to compile :
+How to compile :
 
 
 Compiling the demo's can be done as follows:
 
-gcc demo_rx.c rs232.c -Wall -Wextra -o2 -o test_rx
+g++ main.cpp rs232.c -Wall -Wextra -o2 -o start_request
 
-gcc demo_tx.c rs232.c -Wall -Wextra -o2 -o test_tx
 
 Run the demo by typing:
 
-./test_rx
-
-or
-
-./test_tx
-
+./start_request
 
 
 To include this library into your project:
@@ -27,3 +21,22 @@ Write #include "rs232.h" in your sourcefiles that needs access to the library.
 
 Add the file rs232.c to your project settings (in order to get it compiled and linked with your program).
 
+
+SSH ;
+user : pi
+pwd : raspberry
+
+WIFI (AD-HOC)
+SSID : raspi-wifi
+pwd : raspi123
+
+ARDUINO
+Port : /dev/ttyUSB0
+Speed 115200 baud
+commandes :
+Move Roll : MRxxx
+Move Yaw MYxxx
+GetCurrentPosition : G
+Go to Home : H
+
+double (entre  -90 et 90)
