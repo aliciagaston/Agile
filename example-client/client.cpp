@@ -1,12 +1,12 @@
 #include <iostream>
-#include "TCPClient.h"
+#include "../src/TCPClient.h"
 
 int main(int argc, char *argv[])
 {
     if(argc >= 2)
     {
         TCPClient tcp;
-        tcp.setup("127.0.0.1",11999);
+        tcp.setup("10.0.0.1",11999);
         int num = atoi(argv[2]);
         cout << "Num Request:" << num <<endl;
         for(int i = 0; i < num; i++)
@@ -25,4 +25,4 @@ int main(int argc, char *argv[])
     }
     else cout << "Error: message num-request" << endl;
 }
-1
+

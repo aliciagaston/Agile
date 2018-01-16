@@ -1,22 +1,36 @@
 #include <iostream>
-#include "TCPServer.h"
+#include "../src/TCPServer.h"
+
+#include "../src/ArduinoManager.h"
 
 TCPServer tcp;
 
+/* Test Arduino Card Values */
+const int CPORT_NR=16;  /* /dev/ttyUSB0 */
+const int BDRATE=115200; /* 9600 baud */
+
 void * loop(void * m)
 {
+    char mode[4]={'8','N','1',0};
     pthread_detach(pthread_self());
-    while(1)
-    {
-        string str = tcp.getMessage();
+    auto * arduino = new ArduinoManager(CPORT_NR, BDRATE);
+    arduino->connect();
+    string str = "";
+    while(str != "quit") {
+        str = tcp.getMessage();
         if( str != "" )
         {
-            cout << "Message:" << str << endl;
-            tcp.Send("ciao paperino");
+            cout << "Message : " << str << endl;
+
+            //Sent instruction to Arduino
+            arduino->send(str);
+            arduino->receive();
             tcp.clean();
         }
         usleep(1000);
     }
+
+    delete arduino;
     tcp.detach();
 }
 
