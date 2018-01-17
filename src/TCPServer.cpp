@@ -2,6 +2,11 @@
 
 string TCPServer::Message;
 
+/**
+ *
+ * @param arg
+ * @return int
+ */
 void* TCPServer::Task(void *arg)
 {
 	int n;
@@ -19,10 +24,14 @@ void* TCPServer::Task(void *arg)
 		msg[n]=0;
 		//send(newsockfd,msg,n,0);
 		Message = string(msg);
-        }
+	}
 	return 0;
 }
 
+/**
+ * Configures the TCP server
+ * @param port
+ */
 void TCPServer::setup(int port)
 {
 	sockfd=socket(AF_INET,SOCK_STREAM,0);
@@ -34,6 +43,10 @@ void TCPServer::setup(int port)
  	listen(sockfd,5);
 }
 
+/**
+ * Receives messages from client
+ * @return
+ */
 string TCPServer::receive()
 {
 	string str;
@@ -47,22 +60,36 @@ string TCPServer::receive()
 	return str;
 }
 
+/**
+ * Accessor
+ * @return
+ */
 string TCPServer::getMessage()
 {
 	return Message;
 }
 
+/**
+ * send socket
+ * @param msg
+ */
 void TCPServer::Send(string msg)
 {
 	send(newsockfd,msg.c_str(),msg.length(),0);
 }
 
+/**
+ * clean socket
+ */
 void TCPServer::clean()
 {
 	Message = "";
 	memset(msg, 0, MAXPACKETSIZE);
 }
 
+/**
+ * close the connection
+ */
 void TCPServer::detach()
 {
 	close(sockfd);

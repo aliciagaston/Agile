@@ -15,6 +15,9 @@ using namespace std;
 
 #define MAXPACKETSIZE 4096
 
+/**
+ * @class -Creates a TCP connection
+ */
 class TCPServer
 {
 	public:

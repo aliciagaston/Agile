@@ -1,7 +1,3 @@
-//
-// Created by macouta on 1/16/18.
-//
-
 #ifndef AGILE_ADRUINOMANAGER_H
 #define AGILE_ADRUINOMANAGER_H
 
@@ -13,6 +9,9 @@
 
 #define BUF_SIZE 128
 
+/**
+ * @class - Manage communication between raspberry and arduino
+ */
 class ArduinoManager {
 private:
     char m_mode[4]={'8','N','1',0};
