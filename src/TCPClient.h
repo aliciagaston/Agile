@@ -13,6 +13,9 @@
 
 using namespace std;
 
+/**
+ * @class - create a TCP connection
+ */
 class TCPClient
 {
   private:

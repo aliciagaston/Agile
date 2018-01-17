@@ -7,6 +7,12 @@ TCPClient::TCPClient()
 	address = "";
 }
 
+/**
+ * configure the TCP Client
+ * @param address
+ * @param port
+ * @return
+ */
 bool TCPClient::setup(string address , int port)
 {
   	if(sock == -1)
@@ -48,6 +54,11 @@ bool TCPClient::setup(string address , int port)
   	return true;
 }
 
+/**
+ * send a socket
+ * @param data
+ * @return
+ */
 bool TCPClient::Send(string data)
 {
 	if( send(sock , data.c_str() , strlen( data.c_str() ) , 0) < 0)
@@ -58,6 +69,11 @@ bool TCPClient::Send(string data)
 	return true;
 }
 
+/**
+ * receive a socket
+ * @param size
+ * @return
+ */
 string TCPClient::receive(int size)
 {
   	char buffer[size];
@@ -71,6 +87,10 @@ string TCPClient::receive(int size)
   	return reply;
 }
 
+/**
+ * read content of the socket
+ * @return
+ */
 string TCPClient::read()
 {
   	char buffer[1] = {};

@@ -5,7 +5,7 @@
 #include "ArduinoManager.h"
 
 /**
- *
+ * constructor
  */
 ArduinoManager::ArduinoManager(int cport_nr, int bdrate) {
     m_cport_nr = cport_nr;
@@ -13,8 +13,8 @@ ArduinoManager::ArduinoManager(int cport_nr, int bdrate) {
 }
 
 /**
- *
- * @param string msg, message sent to Arduino
+ * Send message to Arduino
+ * @param string msg
  */
 void ArduinoManager::send(std::string str) {
     char msg[BUF_SIZE];
@@ -24,7 +24,7 @@ void ArduinoManager::send(std::string str) {
 }
 
 /**
- *
+ * Connect to Arduino
  */
 void ArduinoManager::connect() {
     std::cout << RS232_OpenComport(m_cport_nr, m_bdrate, m_mode) ? "Can not open comport" : "Comport open";
@@ -32,7 +32,7 @@ void ArduinoManager::connect() {
 }
 
 /**
- *
+ * Receive message from Arduino
  */
 std::string ArduinoManager::receive() {
     int n = RS232_PollComport(m_cport_nr, str_recv, (int)BUF_SIZE);

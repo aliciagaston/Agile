@@ -5,7 +5,7 @@
 
 TCPServer tcp;
 
-/* Test Arduino Card Values */
+/*Test Arduino Card Values */
 const int CPORT_NR=16;  /* /dev/ttyUSB0 */
 const int BDRATE=115200; /* 9600 baud */
 
@@ -19,12 +19,18 @@ enum AduinoIntructions {
     
 };
 
+/**
+ * get message from client
+ */
 void handleClientRequest() {
     string client_msg = tcp.getMessage();
-
 }
 
-
+/**
+ * server start
+ * @param m
+ * @return
+ */
 void * loop(void * m)
 {
     char mode[4]={'8','N','1',0};
