@@ -39,9 +39,7 @@ std::string ArduinoManager::receive() {
     if(n > 0){
         str_recv[n] = 0;   /* always put a "null" at the end of a string! */
         std::string resp;
-        for(char a : str_recv) {
-            resp+=a;
-        }
+        resp = str_recv;
         return resp;
     } else {
         return "Position can't be send.";

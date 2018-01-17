@@ -7,20 +7,14 @@ int main(int argc, char *argv[])
     {
         TCPClient tcp;
         tcp.setup("10.0.0.1",11999);
-        int num = atoi(argv[2]);
-        cout << "Num Request:" << num <<endl;
-        for(int i = 0; i < num; i++)
+        string msg = argv[1];
+        tcp.Send(msg);
+        string rec = tcp.receive();
+        if( rec != "" )
         {
-            string msg = argv[1];
-            tcp.Send(msg);
-            string rec = tcp.receive();
-            if( rec != "" )
-            {
-                cout << "Server Response:" << rec << endl;
-            }
-            sleep(1);
+            cout << rec << endl;
         }
-        exit(0);
+        sleep(1);
         return 0;
     }
     else cout << "Error: message num-request" << endl;

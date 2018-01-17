@@ -9,6 +9,22 @@ TCPServer tcp;
 const int CPORT_NR=16;  /* /dev/ttyUSB0 */
 const int BDRATE=115200; /* 9600 baud */
 
+/*Arduino instructions */
+const std::string HOME="H";
+const std::string H_MOTOR="MY";
+const std::string V_MOTOR="MR";
+const std::string POS="G";
+
+enum AduinoIntructions {
+    
+};
+
+void handleClientRequest() {
+    string client_msg = tcp.getMessage();
+
+}
+
+
 void * loop(void * m)
 {
     char mode[4]={'8','N','1',0};
@@ -24,7 +40,10 @@ void * loop(void * m)
 
             //Sent instruction to Arduino
             arduino->send(str);
-            arduino->receive();
+
+            //Receive positions from Arduino and send it to client
+            tcp.Send(arduino->receive());
+
             tcp.clean();
         }
         usleep(1000);
