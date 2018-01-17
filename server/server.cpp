@@ -16,7 +16,7 @@ const int BDRATE=115200; /* 9600 baud */
  * @param ArduinoManager arduino, handle link with arduino.
  * @param string str, raw string sent by client.
  */
-void IOHandler(ArduinoManager * arduino, string str) {
+void IOHandler(ArduinoManager * arduino, const string &str) {
     cout << "===============================" << endl;
     cout << "Message from client : " << str << endl;
     if(arduino->handleClientRequest(str) == -1) {
@@ -43,9 +43,11 @@ void * loop(void * m)
     string client_str;
 
     while(client_str != "quit") {
-        client_str = tcp.getMessage();
-        IOHandler(arduino, client_str);
-        usleep(1000);
+        if(client_str != "") {
+            client_str = tcp.getMessage();
+            IOHandler(arduino, client_str);
+            usleep(1000);
+        }
     }
 
     delete arduino;
