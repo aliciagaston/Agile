@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <unistd.h>
+#include <regex>
 #include "rs232.h"
 
 
@@ -21,6 +22,7 @@ private:
 public:
     ArduinoManager(int cport_nr, int bdrate);
     void connect();
+    int handleClientRequest(std::string raw);
     void send(std::string str);
     std::string receive();
 };
