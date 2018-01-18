@@ -1,5 +1,8 @@
 #include "TCPClient.h"
 
+/**
+ * Constructor
+ */
 TCPClient::TCPClient()
 {
 	sock = -1;
@@ -7,11 +10,12 @@ TCPClient::TCPClient()
 	address = "";
 }
 
+
 /**
  * configure the TCP Client
  * @param address
  * @param port
- * @return
+ * @return bool
  */
 bool TCPClient::setup(string address , int port)
 {
@@ -57,7 +61,7 @@ bool TCPClient::setup(string address , int port)
 /**
  * send a socket
  * @param data
- * @return
+ * @return bool
  */
 bool TCPClient::Send(string data)
 {
@@ -72,7 +76,7 @@ bool TCPClient::Send(string data)
 /**
  * receive a socket
  * @param size
- * @return
+ * @return string
  */
 string TCPClient::receive(int size)
 {
@@ -89,7 +93,7 @@ string TCPClient::receive(int size)
 
 /**
  * read content of the socket
- * @return
+ * @return string
  */
 string TCPClient::read()
 {

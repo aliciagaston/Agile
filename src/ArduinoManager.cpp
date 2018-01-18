@@ -1,9 +1,6 @@
-//
-// Created by macouta on 1/16/18.
-//
-using namespace std;
-
 #include "ArduinoManager.h"
+
+using namespace std;
 
 /**
  * ArduinoManager constructor
@@ -11,6 +8,7 @@ using namespace std;
  * @param cport_nr value to link Arduino with the program, used in rs232.h functions.
  * @param bdrate value to link Arduino with the program, used in rs232.h functions.
  */
+
 ArduinoManager::ArduinoManager(int cport_nr, int bdrate) {
     m_cport_nr = cport_nr;
     m_bdrate = bdrate;
@@ -22,7 +20,7 @@ ArduinoManager::ArduinoManager(int cport_nr, int bdrate) {
  * @param string raw, client message sent to server.
  * @return 0, for normal arduino command, 1 for scan and -1 if not recognized command.
  */
- int ArduinoManager::handleClientRequest(string raw) {
+int ArduinoManager::handleClientRequest(std::string raw) {
     /* Regex for Motor Yaw command */
     regex horizontalPattern { "^MY-?[0-9]{1,3}(\.[0-9]{1,2})?$" };
 
@@ -44,10 +42,10 @@ ArduinoManager::ArduinoManager(int cport_nr, int bdrate) {
  *
  * @param string msg, message sent to Arduino
  */
-void ArduinoManager::send(string str) {
+void ArduinoManager::send(std::string str) {
     char msg[BUF_SIZE];
     RS232_cputs(m_cport_nr, strcpy(msg, str.c_str())); // sends string on serial
-    cout << "Sent to Arduino : " << msg << endl;
+    std::cout << "Sent to Arduino : " << msg << std::endl;
     usleep(1000000);  /* waits for reply 1000ms */
 }
 
@@ -56,13 +54,8 @@ void ArduinoManager::send(string str) {
  *
  */
 void ArduinoManager::connect() {
-    if(RS232_OpenComport(m_cport_nr, m_bdrate, m_mode)) {
-        cout << "Comport open, Arduino serial connexion done. "  << endl;
-        usleep(2000000);  /* waits 2000ms for stable condition */
-    } else {
-        cout << "Can not open Comport, Arduino serial connexion failed." << endl;
-    }
-
+    std::cout << RS232_OpenComport(m_cport_nr, m_bdrate, m_mode) ? "Can not open comport" : "Comport open";
+    usleep(2000000);  /* waits 2000ms for stable condition */
 }
 
 /**
@@ -70,15 +63,14 @@ void ArduinoManager::connect() {
  *
  * @return response string or error message.
  */
-string ArduinoManager::receive() {
-    string resp;
+std::string ArduinoManager::receive() {
     int n = RS232_PollComport(m_cport_nr, str_recv, (int)BUF_SIZE);
     if(n > 0){
         str_recv[n] = 0;   /* always put a "null" at the end of a string! */
+        std::string resp;
         for(char a : str_recv) {
             resp+=a;
         }
-        cout << "REPONSE ARDUINO " << resp << endl;
         return resp;
     } else {
         return "Position can't be send.";

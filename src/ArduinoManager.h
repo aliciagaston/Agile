@@ -20,8 +20,8 @@ private:
     unsigned char str_recv[BUF_SIZE]; // recv data buffer
 public:
     ArduinoManager(int cport_nr, int bdrate);
-    void connect();
     int handleClientRequest(std::string raw);
+    void connect();
     void send(std::string str);
     std::string receive();
 };

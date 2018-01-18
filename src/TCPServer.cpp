@@ -24,12 +24,12 @@ void* TCPServer::Task(void *arg)
 		msg[n]=0;
 		//send(newsockfd,msg,n,0);
 		Message = string(msg);
-	}
+        }
 	return 0;
 }
 
 /**
- * Configures the TCP server
+ * Connfigure the TCP Server
  * @param port
  */
 void TCPServer::setup(int port)
@@ -45,7 +45,7 @@ void TCPServer::setup(int port)
 
 /**
  * Receives messages from client
- * @return
+ * @return string
  */
 string TCPServer::receive()
 {
@@ -62,7 +62,7 @@ string TCPServer::receive()
 
 /**
  * Accessor
- * @return
+ * @return string
  */
 string TCPServer::getMessage()
 {
