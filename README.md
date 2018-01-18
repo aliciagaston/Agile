@@ -6,8 +6,8 @@ To launch server on rasberry PI :
 * run command *make*
 * run *./server*
 
-##Useful informations
-###Rasberry
+## Useful informations
+### Rasberry
 
 **SSH :**
 * user : pi
@@ -29,5 +29,5 @@ commandes :
 
 double (entre  -90 et 90)
 
-##Troubleshooting
+## Troubleshooting
 Connexion between PI and Arduino don't work in last commit. 
