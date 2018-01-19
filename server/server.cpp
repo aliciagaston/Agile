@@ -41,7 +41,6 @@ void * loop(void * m)
         str = tcp.getMessage();
         if( str != "" )
         {
-            cout << "Message : " << str << endl;
             IOHandler(arduino, str);
         }
         usleep(1000);

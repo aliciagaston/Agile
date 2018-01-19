@@ -21,11 +21,13 @@ ArduinoManager::ArduinoManager(int cport_nr, int bdrate) {
  * @return 0, for normal arduino command, 1 for scan and -1 if not recognized command.
  */
 int ArduinoManager::handleClientRequest(std::string raw) {
-    /* Regex for Motor Yaw command */
+    /* Regex for different inputs */
+    regex horizontalPattern { "^MY-?[0-9]{1,3}(\.[0-9]{1,2})?$" };
+    regex verticalPattern { "^MR-?[0-9]{1,3}(\.[0-9]{1,2})?$" };
     regex clientPattern { "^MR-?[0-9]{1,3}(\.[0-9]{1,2})?;MY-?[0-9]{1,3}(\.[0-9]{1,2})?$" };
 
 
-    if(raw=="H" || raw == "G") {
+    if(raw=="H" || raw == "G" || regex_match(raw, horizontalPattern) || regex_match(raw, verticalPattern)) {
         this->send(raw);
         return 0;
     } 
