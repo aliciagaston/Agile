@@ -46,6 +46,7 @@ void * loop(void * m)
     auto * arduino = new ArduinoManager(CPORT_NR, BDRATE);
     arduino->connect();
     string str = "";
+    cout << "start loop" << endl;
     while(str != "quit") {
         str = tcp.getMessage();
         if( str != "" )
@@ -62,7 +63,7 @@ void * loop(void * m)
         }
         usleep(1000);
     }
-
+    cout << "end loop" << endl;
     delete arduino;
     tcp.detach();
 }
@@ -73,6 +74,7 @@ void * loop(void * m)
  */
 int main()
 {
+    cout << "Server on." << endl;
     pthread_t msg;
     tcp.setup(11999);
     if( pthread_create(&msg, NULL, loop, (void *)0) == 0)
