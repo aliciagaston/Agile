@@ -1,63 +1,55 @@
-#define BUFSIZE 1024
-
 /*
- * error - wrapper for perror
+ * listen-udp.c - Illustrate simple TCP connection
+ * It opens a blocking socket and
+ * listens for messages in a for loop.  It takes the name of the machine
+ * that it will be listening on as argument.
  */
-void error(char *msg) {
-    perror(msg);
-    exit(0);
-}
 
-int main(int argc, char **argv) {
-    int sockfd, portno, n;
-    int serverlen;
-    struct sockaddr_in serveraddr;
-    struct hostent *server;
-    char *hostname;
-    char buf[BUFSIZE];
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <string.h>
+#include <iostream>
+#include <cstdlib>
+#include <zconf.h>
 
-    /* check command line arguments */
-    if (argc != 3) {
-        fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
-        exit(0);
-    }
-    hostname = argv[1];
-    portno = atoi(argv[2]);
+#define SERVER_PORT 2368
 
-    /* socket: create the socket */
-    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sockfd < 0)
-        error("ERROR opening socket");
+int main(int argc, char *argv[]) {
+    char message[1024];
+    int sock;
+    struct sockaddr_in name;
+    struct hostent *hp, *gethostbyname();
+    int bytes;
 
-    /* gethostbyname: get the server's DNS entry */
-    server = gethostbyname(hostname);
-    if (server == NULL) {
-        fprintf(stderr,"ERROR, no such host as %s\n", hostname);
-        exit(0);
+    printf("Listen activating.\n");
+
+    /* Create socket from which to read */
+    sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sock < 0)   {
+        perror("Opening datagram socket");
+        exit(1);
     }
 
-    /* build the server's Internet address */
-    bzero((char *) &serveraddr, sizeof(serveraddr));
-    serveraddr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr,
-          (char *)&serveraddr.sin_addr.s_addr, server->h_length);
-    serveraddr.sin_port = htons(portno);
+    /* Bind our local address so that the client can send to us */
+    bzero((char *) &name, sizeof(name));
+    name.sin_family = AF_INET;
+    name.sin_addr.s_addr = htonl(INADDR_ANY);
+    name.sin_port = htons(SERVER_PORT);
 
-    /* get a message from the user */
-    bzero(buf, BUFSIZE);
-    printf("Please enter msg: ");
-    fgets(buf, BUFSIZE, stdin);
+    if (bind(sock, (struct sockaddr *) &name, sizeof(name))) {
+        perror("binding datagram socket");
+        exit(1);
+    }
 
-    /* send the message to the server */
-    serverlen = sizeof(serveraddr);
-    n = sendto(sockfd, buf, strlen(buf), 0, &serveraddr, serverlen);
-    if (n < 0)
-        error("ERROR in sendto");
+    printf("Socket has port number #%d\n", ntohs(name.sin_port));
 
-    /* print the server's reply */
-    n = recvfrom(sockfd, buf, strlen(buf), 0, &serveraddr, &serverlen);
-    if (n < 0)
-        error("ERROR in recvfrom");
-    printf("Echo from server: %s", buf);
-    return 0;
+    while ((bytes = read(sock, message, 1024)) > 0) {
+        message[bytes] = '\0';
+        std::cout << message;
+    }
+
+    close(sock);
 }

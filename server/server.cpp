@@ -9,13 +9,6 @@ TCPServer tcp;
 const int CPORT_NR=16;  /* /dev/ttyUSB0 */
 const int BDRATE=115200; /* 9600 baud */
 
-
-void handleClientRequest() {
-    string client_msg = tcp.getMessage();
-
-}
-
-
 /**
  * Handle inputs and outputs
  *
@@ -28,10 +21,6 @@ void IOHandler(ArduinoManager * arduino, const string &str) {
     if(arduino->handleClientRequest(str) == -1) {
         tcp.Send("ERROR");
 
-    } else {
-        //Receive positions from Arduino and send it to client
-        arduino->send("G");
-        tcp.Send(arduino->receive());
     }
     tcp.clean();
 }
@@ -41,25 +30,19 @@ void IOHandler(ArduinoManager * arduino, const string &str) {
  */
 void * loop(void * m)
 {
-    char mode[4]={'8','N','1',0};
     pthread_detach(pthread_self());
     auto * arduino = new ArduinoManager(CPORT_NR, BDRATE);
     arduino->connect();
     string str = "";
-    cout << "start loop" << endl;
     while(str != "quit") {
+        arduino->send("G");
+        tcp.Send(arduino->receive());
+
         str = tcp.getMessage();
         if( str != "" )
         {
             cout << "Message : " << str << endl;
-
-            //Sent instruction to Arduino
-            arduino->send(str);
-
-            //Receive positions from Arduino and send it to client
-            tcp.Send(arduino->receive());
-
-            tcp.clean();
+            IOHandler(arduino, str);
         }
         usleep(1000);
     }
@@ -79,6 +62,7 @@ int main()
     tcp.setup(11999);
     if( pthread_create(&msg, NULL, loop, (void *)0) == 0)
     {
+        cout << "Thread" << endl;
         tcp.receive();
     }
     return 0;

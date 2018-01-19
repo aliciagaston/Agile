@@ -66,6 +66,7 @@ void ArduinoManager::connect() {
 std::string ArduinoManager::receive() {
     int n = RS232_PollComport(m_cport_nr, str_recv, (int)BUF_SIZE);
     if(n > 0){
+        cout << "Message send to client " << str_recv << endl;
         str_recv[n] = 0;   /* always put a "null" at the end of a string! */
         std::string resp;
         for(char a : str_recv) {
