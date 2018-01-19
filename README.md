@@ -1,10 +1,15 @@
 # Agile Week
+Github repository for Dawin project during Agile week, this repository is for the server part of the project.
+You'll find the client part there : https://gitlab.com/NicolasMarcilloux/LIDAR
+
+* Google Drive : https://drive.google.com/drive/u/0/folders/10tHqHxTW0knj4FHQE4iXqZ4afd6rQHnd
+
 ## Get started
-To launch server on rasberry PI :
-* Connect with Pi with ssh
-* Go to ~/Agile/server/
-* run command *make*
-* run *./server*
+Install server on rasberry PI :
+* Connect with rasberry using ssh.
+* Copy server/ and src/ directory on pi
+* run command ```make``` to compile
+* run ```./server```
 
 ## Useful informations
 ### Rasberry
@@ -17,17 +22,21 @@ To launch server on rasberry PI :
 * SSID : raspi-wifi
 * pwd : raspi123
 
-**ARDUINO**
+### Arduino
 * Port : /dev/ttyUSB0
 * Speed : 115200 baud
 
-commandes :
+**Commands :**
 * Move Roll : MRxxx
 * Move Yaw MYxxx
 * GetCurrentPosition : G
 * Go to Home : H
 
-double (entre  -90 et 90)
-
-## Troubleshooting
-Connexion between PI and Arduino don't work in last commit. 
+## Team
+* Guillaume Nedelec
+* Alicia Gaston
+* Timothée Binet
+* Pierre Dumoulin
+* Gauthier Urso
+* Arnaud Ayrem (RIP Buddy)
+* Thomas Blanc

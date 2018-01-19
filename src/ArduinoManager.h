@@ -18,6 +18,8 @@ private:
     int m_cport_nr;
     int m_bdrate;
     unsigned char str_recv[BUF_SIZE]; // recv data buffer
+
+    const std::vector<std::string> explode(const std::string& s, const char& c);
 public:
     ArduinoManager(int cport_nr, int bdrate);
     int handleClientRequest(std::string raw);

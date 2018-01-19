@@ -22,17 +22,26 @@ ArduinoManager::ArduinoManager(int cport_nr, int bdrate) {
  */
 int ArduinoManager::handleClientRequest(std::string raw) {
     /* Regex for Motor Yaw command */
-    regex horizontalPattern { "^MY-?[0-9]{1,3}(\.[0-9]{1,2})?$" };
+    regex clientPattern { "^MR-?[0-9]{1,3}(\.[0-9]{1,2})?;MY-?[0-9]{1,3}(\.[0-9]{1,2})?$" };
 
-    /* Regex for Motor Roll command */
-    regex verticalPattern { "^MR-?[0-9]{1,3}(\.[0-9]{1,2})?$" };
 
-    if(raw=="H" || raw == "G" || regex_match(raw, horizontalPattern) || regex_match(raw, verticalPattern) ) {
+    if(raw=="H" || raw == "G") {
         this->send(raw);
         return 0;
-    } else if( raw == "scan") {
+    } 
+    else if(regex_match(raw, clientPattern)) {
+        /*create a vector containing each command, thanks to explode function wich use a separator to split string. */
+        vector<string> cmds{explode(raw, ',')};
+        
+        for(const string &cmd : cmds) {
+            this->send(cmd);
+        }
+        return 0;
+    } 
+    else if( raw == "scan") {
         return 1;
-    } else {
+    } 
+    else {
         return -1;
     }
 }
@@ -78,3 +87,23 @@ std::string ArduinoManager::receive() {
     }
 }
 
+/**
+ * Split a string with a separator
+ * @param string s to be parsed
+ * @param char c separator
+ * @return vector containing each splited string
+ */
+const vector<string> ArduinoManager::explode(const string& s, const char& c)
+{
+    string buff{""};
+    vector<string> v;
+
+    for(auto n:s)
+    {
+        if(n != c) buff+=n; else
+        if(n == c && buff != "") { v.push_back(buff); buff = ""; }
+    }
+    if(buff != "") v.push_back(buff);
+
+    return v;
+}
